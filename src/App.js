@@ -13,7 +13,7 @@ function App() {
 
   const genPassword = useCallback(()=>{
     
-    let splChar = '!@#$%^&*()_+-+*/~`'
+    let splChar = '!@#$%^&*()_+-+*/~'
     let number = '1234567890'
 
     let finalSet = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM'
@@ -21,7 +21,7 @@ function App() {
       finalSet += number
     }
     if (splChar){
-      finalSet += specialChar
+      finalSet += splChar
     }
 
     let newPass = ''
@@ -29,9 +29,17 @@ function App() {
       newPass += finalSet[Math.floor(Math.random()*finalSet.length)]
     }
 
+    console.log(finalSet)
     setPassword(newPass)
 
   },[passLen, includeNumber, specialChar])
+
+  function copyText(){
+    if(passRef.current){
+      passRef.current.select();
+      document.execCommand("copy")
+    }
+  }
 
   
   return (
@@ -62,7 +70,7 @@ function App() {
         password && (
           <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
             <textarea value={password} readOnly ref={passRef} style={{width:'20vw',height:'5vh'}}></textarea>
-            <button  style={{cursor:'pointer', maxWidth:'180px',paddingTop:'8px',paddingBottom:'8px',backgroundColor:'skyblue',border:'none',borderRadius:'6px',fontSize:'16px',color:'white'}} >Copy To Clipboard</button>
+            <button onClick={copyText}  style={{cursor:'pointer', maxWidth:'180px',paddingTop:'8px',paddingBottom:'8px',backgroundColor:'skyblue',border:'none',borderRadius:'6px',fontSize:'16px',color:'white'}} >Copy To Clipboard</button>
           </div>
         )
       }
